@@ -7,13 +7,15 @@ interface Props {
     onSelected : (files :  any) => void
     multible ?: boolean
     accept ?: ''
+    loading ?: boolean
 }
 const ImagePicker = (props : Props) => {
-    const {onSelected, multible, accept} = props 
+
+    const {onSelected, multible, accept, loading} = props 
     const fileRef = useRef<any>(null)
   return (
     <>
-        <Button onClick={() => {
+        <Button loading={loading} className='mt-4' onClick={() => {
             if (fileRef.current) {
                 fileRef.current?.click();
             }
@@ -23,8 +25,10 @@ const ImagePicker = (props : Props) => {
                 type='file'
                 ref={fileRef}
                 multiple={multible} 
-                accept={accept ?? 'image/*'} 
-                name='' id=''
+                accept={accept ?? 'image/*'}
+                onChange={val => onSelected(val.target.files)}
+                name=''
+                id=''
             />
         </div>
     </>
