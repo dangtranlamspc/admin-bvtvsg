@@ -1,3 +1,4 @@
+import { ImagePicker } from '@/components';
 import { generatorRandomText } from '@/utils/generatorRandomText';
 import { Button, Card, Form, Input } from 'antd'
 import React, { useEffect } from 'react'
@@ -26,10 +27,11 @@ const AddNewOffer = () => {
                 <Form.Item name={'description'} label='Description' >
                     <Input.TextArea rows={2} placeholder='Description' allowClear/>
                 </Form.Item>
-                <Form.Item name={'code'} label='Code' > 
+                <Form.Item name={'code'} label='Code' >
                     <Input disabled placeholder='Code' readOnly/>
                 </Form.Item>
             </Form>
+            <ImagePicker onSelected={(files) => console.log(files)} />
             <div className='text-right'>
                 <Button type='primary' onClick={() => form.submit()} >Publish</Button>
             </div>
