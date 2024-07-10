@@ -44,7 +44,7 @@ const Offers = () => {
 		{
 			key: 'avatar',
 			dataIndex: '',
-			title: '',
+			title: 'HÌNH ẢNH',
 			render: (item: OfferModel) => (
 				<AvatarComponent
 					imageUrl={item.imageUrl}
@@ -56,29 +56,29 @@ const Offers = () => {
 		{
 			key: 'Title',
 			dataIndex: 'title',
-			title: 'Title',
+			title: 'TIÊU ĐỀ',
 		},
 		{
 			key: 'percent',
 			dataIndex: 'percent',
-			title: 'Percent (%)',
+			title: 'PHẦN TRĂM (%)',
 		},
 		{
 			key: 'start',
 			dataIndex: 'startAt',
-			title: 'Start at',
+			title: 'NGÀY BẮT ĐẦU',
 			render: (time: number) => DateTime.getDate(time),
 		},
 		{
 			key: 'end',
 			dataIndex: 'endAt',
-			title: 'End at',
+			title: 'NGÀY KẾT THÚC',
 			render: (time: number) => DateTime.getDate(time),
 		},
 		{
 			key: 'code',
 			dataIndex: 'code',
-			title: 'Code',
+			title: 'CODE',
 		},
 
 		{

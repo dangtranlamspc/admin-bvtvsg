@@ -59,16 +59,16 @@ const AddNewOffer = () => {
 					onFinish={addNewOffer}>
 					<Form.Item
 						name={'title'}
-						label='Title'
+						label='TIÊU ĐỀ'
 						rules={[
 							{
 								required: true,
-								message: 'Please enter title of offer',
+								message: 'Hãy nhập nội dung',
 							},
 						]}>
 						<Input placeholder='title' allowClear />
 					</Form.Item>
-					<Form.Item name={'description'} label='Description'>
+					<Form.Item name={'description'} label='NỘI DUNG'>
 						<Input.TextArea rows={2} placeholder='Description' allowClear />
 					</Form.Item>
 					<div className='row'>
@@ -76,20 +76,52 @@ const AddNewOffer = () => {
 							<Form.Item
 								name={'startAt'}
 								initialValue={dayjs(date)}
-								label='Start at'>
+								label='NGÀY BẮT ĐẦU'
+								>
 								<DatePicker style={{ width: '100%' }} format={'DD/MM/YYYY'} />
 							</Form.Item>
 						</div>
 						<div className='col'>
-							<Form.Item name={'endAt'} label='End at'>
+							<Form.Item 
+								name={'endAt'} 
+								label='NGÀY KẾT THÚC' 
+								rules={[
+									{
+										required: true,
+										message: 'Hãy chọn ngày kết thúc',
+									},
+								]}
+							>
 								<DatePicker style={{ width: '100%' }} format={'DD/MM/YYYY'} />
 							</Form.Item>
 						</div>
 					</div>
-					<Form.Item name={'percent'} label='percent'>
-						<Input type='number' placeholder='percent' allowClear />
+					<Form.Item 
+						name={'percent'} 
+						label='PHẦN TRĂM' 
+						rules={[
+							{
+								required: true,
+								message: 'Hãy nhập phần trăm',
+							},
+						]}
+					>
+						<Input 
+							type='number' 
+							placeholder='percent' 
+							allowClear 
+						/>
 					</Form.Item>
-					<Form.Item name={'code'} label='Code'>
+					<Form.Item 
+						name={'code'} 
+						label='Code' 
+						rules={[
+							{
+								required: true,
+								message: 'Hãy nhập mã',
+							},
+						]}
+					>
 						<Input placeholder='Code' />
 					</Form.Item>
 				</Form>
@@ -115,7 +147,7 @@ const AddNewOffer = () => {
 						loading={isLoading}
 						type='primary'
 						onClick={() => form.submit()}>
-						Publish
+						TẢI LÊN
 					</Button>
 				</div>
 			</Card>
