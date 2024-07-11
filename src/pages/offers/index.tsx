@@ -9,7 +9,7 @@ import { collectionNames } from '@/constants/collectionNames';
 import { OfferModel } from '@/models/OfferModel';
 import { DateTime } from '@/utils/dateTime';
 import { HandleFile } from '@/utils/handleFile';
-import { collection, deleteDoc, doc, onSnapshot } from 'firebase/firestore';
+import { collection, deleteDoc, doc, getDoc, onSnapshot, updateDoc } from 'firebase/firestore';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { BiTrash } from 'react-icons/bi';
@@ -136,8 +136,8 @@ const Offers = () => {
 	return (
 		<>
 			<HeadComponent
-				title='Offers'
-				pageTitle='Offers'
+				title='KHUYẾN MÃI'
+				pageTitle='KHUYẾN MÃI'
 				extra={
 					<Button
 						type='primary'
@@ -146,6 +146,7 @@ const Offers = () => {
 					</Button>
 				}
 			/>
+			{/* <Button onClick={handleUpdate}>Update</Button> */}
 			<Table dataSource={offers} columns={columns} />
 		</>
 	);

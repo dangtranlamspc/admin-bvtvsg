@@ -3,14 +3,16 @@ import React, { useEffect, useState } from 'react'
 import { AvatarComponent, HeadComponent } from '@/components';
 import { Button , Space, Table } from 'antd';
 import { AddNewCategory } from '@/modals';
-import { collection, onSnapshot } from 'firebase/firestore';
+import { collection, doc, getDoc, onSnapshot, updateDoc } from 'firebase/firestore';
 import { fs } from '@/firebase/firebaseConfig';
 import { CategoryModel } from '@/models/CategoryModel';
 import { ColumnProps } from 'antd/es/table';
 
 const Categories = () => {
   const [isVisibleModalAddCategory, setIsVisibleModalAddCategory] = useState(false);
+
   const [categories, setCategories] = useState<CategoryModel[]> ([]);
+
   useEffect (() => {
     onSnapshot(collection(fs, 'categories'), snap => {
       if(snap.empty) {
@@ -28,6 +30,25 @@ const Categories = () => {
       }
     })
   })
+
+  // const handleUpdate = async () => {
+  //   if (categories.length > 0) {
+  //     categories.forEach( async (cat) => {
+  //       if (cat.files && cat.files.length > 0 ) {
+  //         const fileId = cat.files[0];
+
+  //         const snap = await getDoc(doc(fs, `files/${fileId}`))
+  //         if (snap.exists()) {
+  //           const data = (snap.data());
+  //           await updateDoc(doc(fs, `categories/${cat.id}`) , {
+  //             imageURL : data.downloadURL,
+  //           })
+  //           console.log('DOne')
+  //         }
+  //       }
+  //     })
+  //   }
+  // }
 
   const columns : ColumnProps<CategoryModel>[] = [
 		{
@@ -51,16 +72,18 @@ const Categories = () => {
   return (
     <div>
 			<HeadComponent
-				title='Categories'
-				pageTitle='Categories'
+				title='DANH MỤC'
+				pageTitle='DANH MỤC'
 				extra={
 					<Button
 						type='primary'
 						onClick={() => setIsVisibleModalAddCategory(true)}>
-						Add new
+						THÊM MỚI
 					</Button>
 				}
 			/>
+      {/* <Button onClick={handleUpdate}>Cập nhật</Button> */}
+
 			<Table dataSource={categories} columns={columns} />
 			<AddNewCategory
 				visible={isVisibleModalAddCategory}

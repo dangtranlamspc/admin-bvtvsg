@@ -6,6 +6,7 @@ import { UserModel } from '@/models/UserModel'
 import { ColumnProps } from 'antd/es/table'
 import {Button, Space, Table} from 'antd'
 import { BiTrash } from 'react-icons/bi'
+import { HeadComponent } from '@/components'
 const Users = () => {
 
   const [users, setUsers] = useState<UserModel[]>([])
@@ -54,9 +55,15 @@ const Users = () => {
     },
   ]
   return (
-    <Table dataSource={users} columns={colums}>
+      <div>
+        <HeadComponent
+				title='NGƯỜI DÙNG'
+				pageTitle='NGƯỜI DÙNG'
+			/>
+          <Table dataSource={users} columns={colums}>
       
-    </Table>
+          </Table>
+      </div>
   )
 }
 
