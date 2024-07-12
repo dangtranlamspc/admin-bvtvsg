@@ -1,14 +1,19 @@
 import { useEffect, useState } from 'react'
 import { HeadComponent } from '@/components'
 import AvatarComponent from '@/components/AvatarComponent';
-import { Button, Space, Tag, Table, Tooltip } from 'antd'
+import { Button, Space, Tag, Table, Tooltip, Modal } from 'antd'
 import { useRouter } from 'next/router'
 import { ProductModel } from '@/models/ProductModel'
-import { collection, onSnapshot } from 'firebase/firestore'
+import { collection, deleteDoc, doc, onSnapshot } from 'firebase/firestore'
 import { fs } from '@/firebase/firebaseConfig'
 import { ColumnProps } from 'antd/es/table'
 import CategoryComponent from '@/components/CategoryComponent'
 import { FaEdit } from 'react-icons/fa'
+import { FcAddImage } from 'react-icons/fc';
+import { BiTrash } from 'react-icons/bi';
+import { HandleFile } from '@/utils/handleFile';
+
+const { confirm } = Modal;
 
 const Products = () => {
 
@@ -62,22 +67,22 @@ const Products = () => {
 			key: 'cat',
 			title: 'Categories',
 			dataIndex: 'categories',
-			render: (ids: string[]) =>
+			render: (ids: string) =>
 				ids &&
 				ids.length > 0 && (
 					<Space>
-						{ids.map((id) => (
+						{/* {ids.map((id) => ( */}
 							<Tag>
-								<CategoryComponent id={id} key={id} />
+								<CategoryComponent id={ids} key={ids} />
 							</Tag>
-						))}
+						{/* ))} */}
 					</Space>
 			),
 
 		},
 		{
 			key: 'Price',
-			title: 'GIÁ',
+			title: 'GIÁ (VNĐ)',
 			dataIndex: 'price',
 		},
 		{
@@ -86,7 +91,7 @@ const Products = () => {
 			dataIndex: '',
 			render: (item) => (
 				<Space>
-					<Tooltip title='Edit product'>
+					<Tooltip title='Chỉnh sửa sản phẩm'>
 						<Button
 							type='text'
 							icon={<FaEdit color='#676767' size={20} />}
@@ -95,7 +100,7 @@ const Products = () => {
 							}
 						/>
 					</Tooltip>
-					{/* <Tooltip title='Add sub product'>
+					<Tooltip title='Thêm thuộc tính'>
 						<Button
 							type='text'
 							icon={<FcAddImage size={22} />}
@@ -103,11 +108,42 @@ const Products = () => {
 								router.push(`/products/add-sub-product?id=${item.id}`)
 							}
 						/>
-					</Tooltip> */}
+					</Tooltip>
 				</Space>
 			),
 		},
+
+		{
+			key: 'btn',
+			title: '',
+			dataIndex: '',
+			render: (item: ProductModel) => (
+				<Space>
+					<Button
+						onClick={() =>
+							confirm({
+								title: 'Confirm',
+								content: 'Delete offer?',
+								onOk: () => handleDeletOffer(item),
+							})
+						}
+						icon={<BiTrash size={20} />}
+						danger
+						type='text'
+					/>
+				</Space>
+			),
+			align: 'right',
+		},
 	]
+
+	const handleDeletOffer = async (item: ProductModel) => {
+		if (item.files && item.files.length > 0) {
+			item.files.forEach(async (fileId) => await HandleFile.removeFile(fileId));
+		}
+
+		await deleteDoc(doc(fs, `products/${item.id}`));
+	};
 
   return (
     <div>

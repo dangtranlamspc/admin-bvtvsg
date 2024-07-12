@@ -1,4 +1,6 @@
 export const collectionNames = {
     users : 'user',
-    offers : 'offers'
+    offers : 'offers',
+    categories : 'categories',
+    products: 'products',
 }

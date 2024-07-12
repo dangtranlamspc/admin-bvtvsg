@@ -1,12 +1,16 @@
 import { View, Text } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { AvatarComponent, HeadComponent } from '@/components';
-import { Button , Space, Table } from 'antd';
+import { Button , Modal, Space, Table } from 'antd';
 import { AddNewCategory } from '@/modals';
-import { collection, doc, getDoc, onSnapshot, updateDoc } from 'firebase/firestore';
+import { collection, deleteDoc, doc, getDoc, onSnapshot, updateDoc } from 'firebase/firestore';
 import { fs } from '@/firebase/firebaseConfig';
 import { CategoryModel } from '@/models/CategoryModel';
 import { ColumnProps } from 'antd/es/table';
+import { BiTrash } from 'react-icons/bi';
+import { HandleFile } from '@/utils/handleFile';
+
+const { confirm } = Modal;
 
 const Categories = () => {
   const [isVisibleModalAddCategory, setIsVisibleModalAddCategory] = useState(false);
@@ -50,7 +54,7 @@ const Categories = () => {
   //   }
   // }
 
-  const columns : ColumnProps<CategoryModel>[] = [
+  const columns : ColumnProps<any>[] = [
 		{
 			key: 'img',
 			dataIndex: '',
@@ -66,8 +70,37 @@ const Categories = () => {
 			key: 'title',
 			dataIndex: 'title',
 		},
+    	{
+			key: 'btn',
+			title: '',
+			dataIndex: '',
+			render: (item: CategoryModel) => (
+				<Space>
+					<Button
+						onClick={() =>
+							confirm({
+								title: 'Confirm',
+								content: 'Delete offer?',
+								onOk: () => handleDeletOffer(item),
+							})
+						}
+						icon={<BiTrash size={20} />}
+						danger
+						type='text'
+					/>
+				</Space>
+			),
+			align: 'right',
+		},
+  	];
 
-  ]
+  const handleDeletOffer = async (item: CategoryModel) => {
+		if (item.files && item.files.length > 0) {
+			item.files.forEach(async (fileId) => await HandleFile.removeFile(fileId));
+		}
+
+		await deleteDoc(doc(fs, `categories/${item.id}`));
+	};
 
   return (
     <div>

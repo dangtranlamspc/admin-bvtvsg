@@ -29,6 +29,12 @@ const AddNewProduct = () => {
 
 
   useEffect(() => {
+		id && getProductDetail(id);
+	}, [id]);
+
+
+
+  useEffect(() => {
 		getCategories();
 	}, []);
 
@@ -157,25 +163,6 @@ const AddNewProduct = () => {
 		});
 	};
 
-  // const optionSize = [
-  //   {
-  //     label : 'S',
-  //     value : 'S'
-  //   },
-  //   {
-  //     label : 'M',
-  //     value : 'M'
-  //   },
-  //   {
-  //     label : 'L',
-  //     value : 'L'
-  //   },
-  //   {
-  //     label : 'XL',
-  //     value : 'XL'
-  //   }
-  // ]
-    
 
   return (
     <div>
