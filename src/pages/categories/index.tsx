@@ -14,12 +14,12 @@ const Categories = () => {
   const [categories, setCategories] = useState<CategoryModel[]> ([]);
 
   useEffect (() => {
-    onSnapshot(collection(fs, 'categories'), snap => {
+    onSnapshot(collection(fs, 'categories'), (snap) => {
       if(snap.empty) {
         console.log('Không tìm thấy dữ liệu')
         setCategories([])
       }else{
-        const items : any[] = []
+        const items : CategoryModel[] = [];
         snap.forEach((item: any) => {
           items.push({
             id: item.id,

@@ -37,6 +37,8 @@ const AddNewCategory = (props : Props) => {
             try{
                 const snap = await addDoc(collection(fs, 'categories'), {
                     title,
+                    createdAt: Date.now(),
+					updatedAt: Date.now(),
                 })
                 if(files && files.length > 0) {
                     await HandleFile.HandleFiles(files, snap.id, 'categories')
@@ -54,6 +56,7 @@ const AddNewCategory = (props : Props) => {
     <Modal 
         open={visible}
         onOk={handleAddNewCatrgory}
+        loading={isLoading}
         onCancel={handleClose}
         title='Tạo mới danh mục sản phẩm' >
             <div className="mb-3 mt-3">

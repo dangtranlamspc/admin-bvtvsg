@@ -2,15 +2,18 @@ import { HeadComponent, ImagePicker } from '@/components'
 import { fs } from '@/firebase/firebaseConfig'
 import { AddNewCategory } from '@/modals'
 import { HandleFile } from '@/utils/handleFile'
-import { Button, Card, Form, Input, message, Select } from 'antd'
+import { Button, Card, Form, Image, Input, message, Select } from 'antd'
 import { useForm } from 'antd/es/form/Form'
-import { addDoc, collection, onSnapshot } from 'firebase/firestore'
+import { addDoc, collection, doc, getDoc, onSnapshot, updateDoc } from 'firebase/firestore'
+import { useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { BiAddToQueue } from 'react-icons/bi'
 
 const AddNewProduct = () => {
 
   const [files, setFiles] = useState<any[]>([]);
+
+  const [imgUrl, setImgUrl] = useState('');
 
   const [isLoading, setIsLoading] = useState(false)
 
@@ -20,34 +23,118 @@ const AddNewProduct = () => {
 
   const [form] = useForm()
 
+  const searchParams = useSearchParams();
+
+  const id = searchParams.get('id');
+
+
   useEffect(() => {
 		getCategories();
 	}, []);
 
-  const handleAddNewProduct = async(values : any) => {
-    setIsLoading(true)
+  // const handleAddNewProduct = async(values : any) => {
+  //   setIsLoading(true)
 
-    const data : any ={}
+  //   const data : any ={}
 
-    for (const i in values) {
-      data[`${i}`] = values[i] ?? '';
-    }
+  //   for (const i in values) {
+  //     data[`${i}`] = values[i] ?? '';
+  //   }
 
-   try {
-    const snap = await addDoc(collection(fs, 'products'), data)
+  // //  try {
+  // //   const snap = await addDoc(collection(fs, 'products'), data)
 
-    if (files) {
-      HandleFile.HandleFiles(files, snap.id, 'products');
-    }
+  // //   if (files) {
+  // //     HandleFile.HandleFiles(files, snap.id, 'products');
+  // //   }
 
-    setIsLoading(false)
-    window.history.back()
-    form.resetFields()
-   } catch (error : any) {
-      message.error(error.message);
-      setIsLoading(false)
-   }
-  }
+  // //   setIsLoading(false)
+  // //   window.history.back()
+  // //   form.resetFields()
+  // //  } catch (error : any) {
+  // //     message.error(error.message);
+  // //     setIsLoading(false)
+  // //  }
+
+  // try {
+  //   data.updatedAt = Date.now();
+
+  //   const snap = id
+  //     ? await updateDoc(doc(fs, `products/${id}`), data)
+  //     : await addDoc(collection(fs, 'products'), {
+  //         ...data,
+  //         createdAt: Date.now(),
+  //         rate: 0,
+  //       });
+
+  //   if (files && (snap || id)) {
+  //     HandleFile.HandleFiles(
+  //       files,
+  //       id ? id : snap ? snap.id : '',
+  //       'products'
+  //     );
+  //   }
+  //   setIsLoading(false);
+  //   window.history.back();
+  //   form.resetFields();
+  // } catch (error: any) {
+  //   message.error(error.message);
+  //   setIsLoading(false);
+  // }
+  // }
+  const getProductDetail = async (id: string) => {
+		try {
+			const snap = await getDoc(doc(fs, `products/${id}`));
+			if (snap.exists()) {
+				const data = snap.data();
+
+				form.setFieldsValue(data);
+
+				if (data.imageUrl) {
+					setImgUrl(data.imageUrl);
+				}
+			} else {
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+  const handleAddNewProduct = async (values: any) => {
+		setIsLoading(true);
+
+		const data: any = {};
+
+		for (const i in values) {
+			data[`${i}`] = values[i] ?? '';
+		}
+
+		try {
+			data.updatedAt = Date.now();
+
+			const snap = id
+				? await updateDoc(doc(fs, `products/${id}`), data)
+				: await addDoc(collection(fs, 'products'), {
+						...data,
+						createdAt: Date.now(),
+						rate: 0,
+				  });
+
+			if (files && (snap || id)) {
+				HandleFile.HandleFiles(
+					files,
+					id ? id : snap ? snap.id : '',
+					'products'
+				);
+			}
+			setIsLoading(false);
+			window.history.back();
+			form.resetFields();
+		} catch (error: any) {
+			message.error(error.message);
+			setIsLoading(false);
+		}
+	};
 
 
   const getCategories = () => {
@@ -100,7 +187,7 @@ const AddNewProduct = () => {
               type='primary'
               onClick={() => setIsVisibleModalAddCategory(true)}
               icon={<BiAddToQueue size={22} />}>
-              Add new category
+              Thêm mới danh mục sản phẩm
             </Button>
           }
 			  />
@@ -143,6 +230,11 @@ const AddNewProduct = () => {
 						    />
 					    </div>
 				    )}
+            {files.length === 0 && imgUrl ? (
+						<Image src={imgUrl} style={{ width: 200 }} />
+					  ) : (
+						  <></>
+					    )}
             <ImagePicker
 					    loading={isLoading}
 					    onSelected={(vals) => setFiles(vals)}
@@ -152,10 +244,10 @@ const AddNewProduct = () => {
             </div>
           </Card>
         </div>
-          <AddNewCategory
-            visible={isVisibleModalAddCategory}
-            onClose={() => setIsVisibleModalAddCategory(false)}
-          />
+        <AddNewCategory
+          visible={isVisibleModalAddCategory}
+          onClose={() => setIsVisibleModalAddCategory(false)}
+        />
     </div>
   )
 }

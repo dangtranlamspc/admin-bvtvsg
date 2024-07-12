@@ -1,6 +1,6 @@
-import { View, Text } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import { AvatarComponent, HeadComponent } from '@/components'
+import { useEffect, useState } from 'react'
+import { HeadComponent } from '@/components'
+import AvatarComponent from '@/components/AvatarComponent';
 import { Button, Space, Tag, Table, Tooltip } from 'antd'
 import { useRouter } from 'next/router'
 import { ProductModel } from '@/models/ProductModel'
@@ -62,17 +62,18 @@ const Products = () => {
 			key: 'cat',
 			title: 'Categories',
 			dataIndex: 'categories',
-			// render: (ids: string[]) =>
-			// 	ids &&
-			// 	ids.length > 0 && (
-			// 		<Space>
-			// 			{ids.map((id) => (
-			// 				<Tag>
-			// 					<CategoryComponent id={id} key={id} />
-			// 				</Tag>
-			// 			))}
-			// 		</Space>
-			// ),
+			render: (ids: string[]) =>
+				ids &&
+				ids.length > 0 && (
+					<Space>
+						{ids.map((id) => (
+							<Tag>
+								<CategoryComponent id={id} key={id} />
+							</Tag>
+						))}
+					</Space>
+			),
+
 		},
 		{
 			key: 'Price',
