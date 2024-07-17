@@ -1,3 +1,4 @@
+import { SettingOutlined } from '@ant-design/icons';
 import { Layout, Menu, MenuProps } from 'antd'
 import Link from 'next/link';
 import React from 'react'
@@ -36,10 +37,39 @@ const SiderComponent = () => {
         label : <Link href={'/products'}>SẢN PHẨM</Link>,
         icon : <AiFillProduct />
       },
+      {
+        key: 'sub4',
+        label: 'NÔNG NGHIỆP ĐÔ THỊ',
+        icon: <AiFillProduct />,
+        children: [
+          { key: 'hoacaykieng', label: <Link href={'/hoacaykieng'}>HOA - CÂY KIỂNG</Link> },
+          { key: 'raucuqua', label: <Link href={'/raucuqua'}>RAU - CỦ -QUẢ</Link> },
+        ],
+      },
+      {
+        key: 'sub5',
+        label: 'CÔN TRÙNG GIA DỤNG',
+        icon: <AiFillProduct />,
+        children: [
+          { key: 'nhavuons', label: <Link href={'/nhavuons'}>CÔN TRÙNG TRONG NHÀ - VƯỜN</Link> },
+          { key: 'rongrieu', label: <Link href={'/rongrieu'}>RONG RÊU - SINH VẬY THỦY CẢNH</Link> },
+        ],
+      },
+      {
+        key: 'sub6',
+        label: 'TIN TỨC',
+        icon: <AiFillProduct />,
+        children: [
+          { key: 'tintucspc', label: <Link href={'/tintucspc'}>TIN TỨC SPC</Link> },
+          { key: 'hoichosukien', label: <Link href={'/hoichosukien'}>HỘI CHỢ - SỰ KIỆN</Link> },
+          { key: 'hoatdongtapthe', label: <Link href={'/hoatdongtapthe'}>HOẠT ĐỘNG TẬP THỂ</Link> },
+          { key: 'bieuduongkhenthuong', label: <Link href={'/bieuduongkhenthuong'}>BIỂU DƯƠNG - KHEN THƯỞNG</Link> },
+        ],
+      },
     ]
   return (
     <Sider style={{height: '100vh'}}>
-        <Menu items={items} theme='dark' />
+        <Menu style={{width: 250}} items={items} theme='dark' />
     </Sider>
   )
 }

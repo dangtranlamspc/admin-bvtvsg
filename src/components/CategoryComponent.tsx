@@ -7,7 +7,7 @@ type Props = {
 	id?: string;
 };
 
-const AvatarComponent = (props: Props) => {
+const CategoryComponent = (props: Props) => {
 	const { id } = props;
 	const [category, setCategory] = useState<CategoryModel>();
 
@@ -35,4 +35,4 @@ const AvatarComponent = (props: Props) => {
 	return category ? category.title : '';
 };
 
-export default AvatarComponent;
+export default CategoryComponent;

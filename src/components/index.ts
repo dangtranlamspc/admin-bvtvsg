@@ -1,4 +1,5 @@
 import AvatarComponent from './AvatarComponent'
+import CategoryComponent from './CategoryComponent'
 import HeadComponent from './HeadComponent'
 import HeaderComponent from './HeaderComponent'
 import ImagePicker from './ImagePicker'
@@ -8,5 +9,6 @@ export {
     ImagePicker,
     HeadComponent,
     AvatarComponent,
-    HeaderComponent
+    HeaderComponent,
+    CategoryComponent
 }
