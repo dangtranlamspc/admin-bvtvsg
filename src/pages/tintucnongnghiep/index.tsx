@@ -1,24 +1,24 @@
 import { View, Text } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { AvatarComponent, HeadComponent } from '@/components'
-import { Button, Modal, Space, Tooltip } from 'antd'
-import { useRouter } from 'next/router'
-import { NhaVuonModel } from '@/models/NhaVuonModel'
-import { collection, deleteDoc, doc, onSnapshot } from 'firebase/firestore'
-import { fs } from '@/firebase/firebaseConfig'
-import Table, { ColumnProps } from 'antd/es/table'
-import { FaEdit } from 'react-icons/fa'
-import { BiTrash } from 'react-icons/bi'
-import { HandleFile } from '@/utils/handleFile'
+import { Button, Modal, Space, Tooltip } from 'antd';
+import { useRouter } from 'next/router';
+import { TTNNModel } from '@/models/TTNNModel';
+import { collection, deleteDoc, doc, onSnapshot } from 'firebase/firestore';
+import { fs } from '@/firebase/firebaseConfig';
+import Table, { ColumnProps } from 'antd/es/table';
+import { FaEdit } from 'react-icons/fa';
+import { BiTrash } from 'react-icons/bi';
+import { HandleFile } from '@/utils/handleFile';
 
 const { confirm } = Modal;
-const ConTrungTrongNhaVuon = () => {
-	const router = useRouter();
+const TinTucNongNghiep = () => {
 
-	const [nhavuons, setNhaVuons] = useState<NhaVuonModel[]>([]);
+    const router = useRouter();
+	const [tintucnongnghiep, setTinTucNongNghiep] = useState<TTNNModel[]>([]);
 
 	useEffect(() => {
-		onSnapshot(collection(fs, 'nhavuons'), (snap) => {
+		onSnapshot(collection(fs, 'tintucnongnghiep'), (snap) => {
 			if (snap.empty) {
 				console.log('Data not found!');
 			} else {
@@ -31,7 +31,7 @@ const ConTrungTrongNhaVuon = () => {
 					});
 				});
 
-				setNhaVuons(items);
+				setTinTucNongNghiep(items);
 			}
 		});
 	}, []);
@@ -41,7 +41,7 @@ const ConTrungTrongNhaVuon = () => {
 			key: 'image',
 			title: '',
 			dataIndex: '',
-			render: (item: NhaVuonModel) => (
+			render: (item: TTNNModel) => (
 				<AvatarComponent
 					imageUrl={item.imageUrl}
 					id={item.files && item.files.length > 0 ? item.files[0] : ''}
@@ -60,22 +60,17 @@ const ConTrungTrongNhaVuon = () => {
 			title: 'PHÂN LOẠI',
 		},
 		{
-			key: 'Price',
-			title: 'GIÁ (VNĐ)',
-			dataIndex: 'price',
-		},
-		{
 			title: '',
 			align: 'right',
 			dataIndex: '',
 			render: (item) => (
 				<Space>
-					<Tooltip title='Chỉnh sửa sản phẩm'>
+					<Tooltip title='Chỉnh sửa thông tin'>
 						<Button
 							type='text'
 							icon={<FaEdit color='#676767' size={20} />}
 							onClick={() =>
-								router.push(`/nhavuons/add-new-nhavuon?id=${item.id}`)
+								router.push(`/tintucnongnghiep/add-new-ttnn?id=${item.id}`)
 							}
 						/>
 					</Tooltip>
@@ -87,14 +82,14 @@ const ConTrungTrongNhaVuon = () => {
 			key: 'btn',
 			title: '',
 			dataIndex: '',
-			render: (item: NhaVuonModel) => (
+			render: (item: TTNNModel) => (
 				<Space>
 					<Button
 						onClick={() =>
 							confirm({
 								title: 'Confirm',
 								content: 'Delete ?',
-								onOk: () => handleDeleteNhaVuon(item),
+								onOk: () => handleDeleteTinTucNongNghiep(item),
 							})
 						}
 						icon={<BiTrash size={20} />}
@@ -107,29 +102,29 @@ const ConTrungTrongNhaVuon = () => {
 		},
 	]
 
-	const handleDeleteNhaVuon = async (item: NhaVuonModel) => {
+	const handleDeleteTinTucNongNghiep = async (item: TTNNModel) => {
 		if (item.files && item.files.length > 0) {
 			item.files.forEach(async (fileId) => await HandleFile.removeFile(fileId));
 		}
 
-		await deleteDoc(doc(fs, `nhavuons/${item.id}`));
+		await deleteDoc(doc(fs, `tintucnongnghiep/${item.id}`));
 	};
   return (
         <>
 			<HeadComponent
-				title='CÔN TRÙNG TRONG NHÀ VƯỜN'
-				pageTitle='CÔN TRÙNG TRONG NHÀ VƯỜN'
+				title='TIN TỨC NÔNG NGHIỆP'
+				pageTitle='TIN TỨC NGHIỆP'
 				extra={
 					<Button
 						type='primary'
-						onClick={() => router.push('/nhavuons/add-new-nhavuon')}>
+						onClick={() => router.push('/tintucnongnghiep/add-new-ttnn')}>
 						Thêm mới
 					</Button>
 				}
 			/>
-			<Table dataSource={nhavuons} columns={columns} />
+			<Table dataSource={tintucnongnghiep} columns={columns} />
 		</>
   )
 }
 
-export default ConTrungTrongNhaVuon
+export default TinTucNongNghiep

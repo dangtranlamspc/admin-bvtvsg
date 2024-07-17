@@ -55,12 +55,12 @@ const NNDTHoaCayKieng = () => {
 		{
 			key: 'title',
 			dataIndex: 'title',
-			title: 'TÊN SẢN PHẨM',
+			title: 'TIÊU ĐỀ',
 		},
 		{
 			key: 'type',
 			dataIndex: 'type',
-			title: 'TIÊU ĐỀ',
+			title: 'PHÂN LOẠI',
 		},
 		{
 			key: 'Price',
@@ -126,7 +126,7 @@ const NNDTHoaCayKieng = () => {
 					<Button
 						type='primary'
 						onClick={() => router.push('/hoacaykieng/add-new-nndt-hoacaykieng')}>
-						Add new
+						Thêm mới
 					</Button>
 				}
 			/>

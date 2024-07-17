@@ -24,7 +24,7 @@ const SiderComponent = () => {
       },
       {
         key : 'offers',
-        label : <Link href={'/offers'}>KHUYẾN MÃI</Link>,
+        label : <Link href={'/offers'}>Slider trang chủ</Link>,
         icon : <FaPercentage/>
       },
       {
@@ -66,9 +66,40 @@ const SiderComponent = () => {
           { key: 'bieuduongkhenthuong', label: <Link href={'/bieuduongkhenthuong'}>BIỂU DƯƠNG - KHEN THƯỞNG</Link> },
         ],
       },
+      {
+        key: 'sub7',
+        label: 'TIN NÔNG NGHIỆP',
+        icon: <AiFillProduct />,
+        children: [
+          { key: 'tintucnongnghiep', label: <Link href={'/tintucnongnghiep'}>TIN TỨC NÔNG NGHIỆP</Link> },
+          { key: 'chinhsachphapluat', label: <Link href={'/chinhsachphapluat'}>CHÍNH SÁCH PHÁP LUẬT</Link> },
+        ],
+      },
+      {
+        key: 'sub8',
+        label: 'BÁC SĨ CÂY TRỒNG',
+        icon: <AiFillProduct />,
+        children: [
+          { key: 'hoatdongbsct', label: <Link href={'/hoatdongbsct'}>HOẠT ĐỘNG BÁC SĨ CÂY TRỒNG</Link> },
+          { key: 'huongdankt', label: <Link href={'/huongdankt'}>HƯỚNG DẪN KỸ THUẬT</Link> },
+          { key: 'nongdanspc', label: <Link href={'/nongdanspc'}>NÔNG DÂN SPC</Link> },
+        ],
+      },
+      {
+        key: 'sub9',
+        label: 'THƯ VIỆN',
+        icon: <AiFillProduct />,
+        children: [
+          { key: 'tailieukithuat', label: <Link href={'/tailieukithuat'}>TÀI LIỆU KĨ THUẬT</Link> },
+          { key: '', label: <Link href={'/'}>CUỘC BẠN THỬ LÀM BSCT NĂM 2023</Link> },
+          { key: '', label: <Link href={'/'}>CUỘC BẠN THỬ LÀM BSCT NĂM 2021</Link> },
+          { key: 'tintucsukien', label: <Link href={'/tintucsukien'}>TIN TỨC - SỰ KIỆN</Link> },
+          { key: '', label: <Link href={'/'}>MEDIA</Link> },
+        ],
+      },
     ]
   return (
-    <Sider style={{height: '100vh'}}>
+    <Sider style={{height: '100vh', width: 300}}>
         <Menu style={{width: 250}} items={items} theme='dark' />
     </Sider>
   )

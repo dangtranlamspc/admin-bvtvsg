@@ -1,15 +1,14 @@
 import { View, Text } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { HeadComponent, ImagePicker } from '@/components'
 import { useForm } from 'antd/es/form/Form';
 import { useSearchParams } from 'next/navigation';
 import { addDoc, collection, doc, getDoc, updateDoc } from 'firebase/firestore';
 import { fs } from '@/firebase/firebaseConfig';
 import { HandleFile } from '@/utils/handleFile';
 import { Button, Card, Form, Image, Input, message } from 'antd';
+import { HeadComponent, ImagePicker } from '@/components';
 
-const AddNewTinTucSPC = () => {
-
+const AddNewHuongDanKiThuat = () => {
   const [files, setFiles] = useState<any[]>([]);
 
   const [imgUrl, setImgUrl] = useState('');
@@ -23,13 +22,13 @@ const AddNewTinTucSPC = () => {
   const id = searchParams.get('id');
 
   useEffect(() => {
-  id && getTinTucSPCDetail(id);
+  id && getHuongDanKTDetail(id);
   }, [id]);
   
 
-  const getTinTucSPCDetail = async (id: string) => {
+  const getHuongDanKTDetail = async (id: string) => {
   try {
-    const snap = await getDoc(doc(fs, `tintucspc/${id}`));
+    const snap = await getDoc(doc(fs, `huongdankt/${id}`));
     if (snap.exists()) {
       const data = snap.data();
 
@@ -58,8 +57,8 @@ const AddNewTinTucSPC = () => {
     data.updatedAt = Date.now();
 
     const snap = id
-      ? await updateDoc(doc(fs, `tintucspc/${id}`), data)
-      : await addDoc(collection(fs, 'tintucspc'), {
+      ? await updateDoc(doc(fs, `huongdankt/${id}`), data)
+      : await addDoc(collection(fs, 'huongdankt'), {
           ...data,
           createdAt: Date.now(),
           rate: 0,
@@ -69,7 +68,7 @@ const AddNewTinTucSPC = () => {
       HandleFile.HandleFiles(
         files,
         id ? id : snap ? snap.id : '',
-        'tintucspc'
+        'huongdankt'
       );
     }
     setIsLoading(false);
@@ -81,10 +80,10 @@ const AddNewTinTucSPC = () => {
   }
 };
   return (
-    <div>
+<div>
     <HeadComponent
-      title='THÊM MỚI TIN TỨC SPC'
-      pageTitle='THÊM MỚI TIN TỨC SPC'
+      title='THÊM MỚI HƯỚNG DẪN KĨ THUẬT'
+      pageTitle='THÊM MỚI HƯỚNG DẪN KĨ THUẬT'
     />
     <div className="col-md-8 offset-md-2">
       <Card>
@@ -137,4 +136,4 @@ const AddNewTinTucSPC = () => {
   )
 }
 
-export default AddNewTinTucSPC
+export default AddNewHuongDanKiThuat

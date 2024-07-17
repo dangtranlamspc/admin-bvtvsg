@@ -136,8 +136,8 @@ const Offers = () => {
 	return (
 		<>
 			<HeadComponent
-				title='KHUYẾN MÃI'
-				pageTitle='KHUYẾN MÃI'
+				title='SLIDER'
+				pageTitle='SLIDER'
 				extra={
 					<Button
 						type='primary'

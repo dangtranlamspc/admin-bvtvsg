@@ -1,35 +1,35 @@
 import { View, Text } from 'react-native'
 import React, { useEffect, useState } from 'react'
+import { useForm } from 'antd/es/form/Form'
+import { useSearchParams } from 'next/navigation'
+import { addDoc, collection, doc, getDoc, updateDoc } from 'firebase/firestore'
+import { fs } from '@/firebase/firebaseConfig'
+import { HandleFile } from '@/utils/handleFile'
+import { Button, Card, Form, Image, Input, message } from 'antd'
 import { HeadComponent, ImagePicker } from '@/components'
-import { useForm } from 'antd/es/form/Form';
-import { useSearchParams } from 'next/navigation';
-import { addDoc, collection, doc, getDoc, updateDoc } from 'firebase/firestore';
-import { fs } from '@/firebase/firebaseConfig';
-import { HandleFile } from '@/utils/handleFile';
-import { Button, Card, Form, Image, Input, message } from 'antd';
 
-const AddNewTinTucSPC = () => {
+const AddNewTinTucSuKien = () => {
 
-  const [files, setFiles] = useState<any[]>([]);
+    const [files, setFiles] = useState<any[]>([]);
 
-  const [imgUrl, setImgUrl] = useState('');
+    const [imgUrl, setImgUrl] = useState('');
 
-  const [isLoading, setIsLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
 
-  const [form] = useForm()
+    const [form] = useForm()
 
-  const searchParams = useSearchParams();
+    const searchParams = useSearchParams();
 
-  const id = searchParams.get('id');
+    const id = searchParams.get('id');
 
   useEffect(() => {
-  id && getTinTucSPCDetail(id);
+  id && getTinTucSuKienDetail(id);
   }, [id]);
   
 
-  const getTinTucSPCDetail = async (id: string) => {
+  const getTinTucSuKienDetail = async (id: string) => {
   try {
-    const snap = await getDoc(doc(fs, `tintucspc/${id}`));
+    const snap = await getDoc(doc(fs, `tintucsukien/${id}`));
     if (snap.exists()) {
       const data = snap.data();
 
@@ -58,8 +58,8 @@ const AddNewTinTucSPC = () => {
     data.updatedAt = Date.now();
 
     const snap = id
-      ? await updateDoc(doc(fs, `tintucspc/${id}`), data)
-      : await addDoc(collection(fs, 'tintucspc'), {
+      ? await updateDoc(doc(fs, `tintucsukien/${id}`), data)
+      : await addDoc(collection(fs, 'tintucsukien'), {
           ...data,
           createdAt: Date.now(),
           rate: 0,
@@ -69,7 +69,7 @@ const AddNewTinTucSPC = () => {
       HandleFile.HandleFiles(
         files,
         id ? id : snap ? snap.id : '',
-        'tintucspc'
+        'tintucsukien'
       );
     }
     setIsLoading(false);
@@ -81,10 +81,10 @@ const AddNewTinTucSPC = () => {
   }
 };
   return (
-    <div>
+<div>
     <HeadComponent
-      title='THÊM MỚI TIN TỨC SPC'
-      pageTitle='THÊM MỚI TIN TỨC SPC'
+      title='THÊM MỚI TIN TỨC SỰ KIỆN'
+      pageTitle='THÊM MỚI TIN TỨC SỰ KIỆN'
     />
     <div className="col-md-8 offset-md-2">
       <Card>
@@ -100,11 +100,14 @@ const AddNewTinTucSPC = () => {
           }]}>
             <Input placeholder='Tiêu đề' maxLength={150} allowClear />
           </Form.Item>
-          <Form.Item name={'type'} label='Kiểu'>
+          {/* <Form.Item name={'type'} label='Type'>
             <Input />
-          </Form.Item>
-          <Form.Item name={'description'} label='Nội dung'>
+          </Form.Item> */}
+          {/* <Form.Item name={'description'} label='Nội dung'>
             <Input.TextArea rows={10} />
+          </Form.Item> */}
+          <Form.Item name={'youtubeId'} label='YouTubeId'>
+            <Input />
           </Form.Item>
         </Form>
         {files.length > 0 && (
@@ -137,4 +140,4 @@ const AddNewTinTucSPC = () => {
   )
 }
 
-export default AddNewTinTucSPC
+export default AddNewTinTucSuKien

@@ -9,5 +9,15 @@ export const collectionNames = {
     tintucspc : 'tintucspc',
     hoatdongtapthe: 'hoatdongtapthe',
     hoichosukien : 'hoichosukien',
-    bieuduongkhenthuong : 'bieuduongkhenthuong'
+    bieuduongkhenthuong : 'bieuduongkhenthuong',
+    tintucnongnghiep : 'tintucnongnghiep',
+    chinhsachphapluat : 'chinhsachphapluat',
+    hdbsct: 'hdbsct',
+    huongdankt : 'huongdankt',
+    nongdanspc : 'nongdanspc',
+    tailieukt: 'tailieukt',
+    bsct2023 : 'bsct2023',
+    bsct2021 : 'bsct2021',
+    tintucsukien : 'tintucsukien',
+    media: 'media'
 }

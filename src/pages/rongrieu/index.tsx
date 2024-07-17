@@ -51,12 +51,12 @@ const RongReu = () => {
 		{
 			key: 'title',
 			dataIndex: 'title',
-			title: 'TÊN SẢN PHẨM',
+			title: 'TIÊU ĐỀ',
 		},
 		{
 			key: 'type',
 			dataIndex: 'type',
-			title: 'TIÊU ĐỀ',
+			title: 'PHÂN LOẠI',
 		},
 		{
 			key: 'Price',
@@ -122,7 +122,7 @@ const RongReu = () => {
 					<Button
 						type='primary'
 						onClick={() => router.push('/rongrieu/add-new-ctgd-rongrieu')}>
-						Add new
+						Thêm mới
 					</Button>
 				}
 			/>

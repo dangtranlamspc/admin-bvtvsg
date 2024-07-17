@@ -52,12 +52,12 @@ const RauCuQua = () => {
 		{
 			key: 'title',
 			dataIndex: 'title',
-			title: 'TÊN SẢN PHẨM',
+			title: 'TIÊU ĐỀ',
 		},
 		{
 			key: 'type',
 			dataIndex: 'type',
-			title: 'TIÊU ĐỀ',
+			title: 'PHÂN LOẠI',
 		},
 		{
 			key: 'Price',
@@ -123,7 +123,7 @@ const RauCuQua = () => {
 					<Button
 						type='primary'
 						onClick={() => router.push('/raucuqua/add-new-raucuqua')}>
-						Add new
+						Thêm mới
 					</Button>
 				}
 			/>
