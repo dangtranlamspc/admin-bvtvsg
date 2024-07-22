@@ -8,8 +8,16 @@ import { addDoc, collection, doc, getDoc, onSnapshot, updateDoc } from 'firebase
 import { useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { BiAddToQueue } from 'react-icons/bi'
+import dynamic from 'next/dynamic';
 
-const AddNewProduct = () => {
+
+
+const CKEditorWrapper = dynamic(() => import('../../components/CKEditorWrapper'), {
+  ssr: false,
+});
+
+
+const AddNewProduct: React.FC = () => {
 
   const [files, setFiles] = useState<any[]>([]);
 
@@ -32,62 +40,10 @@ const AddNewProduct = () => {
 		id && getProductDetail(id);
 	}, [id]);
 
-
-
   useEffect(() => {
 		getCategories();
 	}, []);
 
-  // const handleAddNewProduct = async(values : any) => {
-  //   setIsLoading(true)
-
-  //   const data : any ={}
-
-  //   for (const i in values) {
-  //     data[`${i}`] = values[i] ?? '';
-  //   }
-
-  // //  try {
-  // //   const snap = await addDoc(collection(fs, 'products'), data)
-
-  // //   if (files) {
-  // //     HandleFile.HandleFiles(files, snap.id, 'products');
-  // //   }
-
-  // //   setIsLoading(false)
-  // //   window.history.back()
-  // //   form.resetFields()
-  // //  } catch (error : any) {
-  // //     message.error(error.message);
-  // //     setIsLoading(false)
-  // //  }
-
-  // try {
-  //   data.updatedAt = Date.now();
-
-  //   const snap = id
-  //     ? await updateDoc(doc(fs, `products/${id}`), data)
-  //     : await addDoc(collection(fs, 'products'), {
-  //         ...data,
-  //         createdAt: Date.now(),
-  //         rate: 0,
-  //       });
-
-  //   if (files && (snap || id)) {
-  //     HandleFile.HandleFiles(
-  //       files,
-  //       id ? id : snap ? snap.id : '',
-  //       'products'
-  //     );
-  //   }
-  //   setIsLoading(false);
-  //   window.history.back();
-  //   form.resetFields();
-  // } catch (error: any) {
-  //   message.error(error.message);
-  //   setIsLoading(false);
-  // }
-  // }
   const getProductDetail = async (id: string) => {
 		try {
 			const snap = await getDoc(doc(fs, `products/${id}`));
@@ -163,6 +119,8 @@ const AddNewProduct = () => {
 		});
 	};
 
+  
+
 
   return (
     <div>
@@ -199,7 +157,8 @@ const AddNewProduct = () => {
 							  <Select options={categories} />
 						  </Form.Item>
               <Form.Item name={'description'} label='Nội dung'>
-                <Input.TextArea rows={10} />
+
+                  <CKEditorWrapper />
               </Form.Item>
               <Form.Item name={'price'} label='Giá'>
                 <Input type='number'/>

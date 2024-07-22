@@ -40,6 +40,8 @@ const Products = () => {
 		});
 	}, []);
 
+
+
 	const columns : ColumnProps<any>[] = [
 		{
 			key: 'image',

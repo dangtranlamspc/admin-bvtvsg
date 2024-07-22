@@ -2,9 +2,9 @@ import { HeadComponent, ImagePicker } from '@/components';
 import { fs } from '@/firebase/firebaseConfig';
 import { HandleFile } from '@/utils/handleFile';
 import { Button, Card, Divider, Form, Input, Select, Space } from 'antd';
-import { addDoc, collection } from 'firebase/firestore';
+import { addDoc, collection, doc, getDoc } from 'firebase/firestore';
 import { useSearchParams } from 'next/navigation';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 
 const { Option } = Select;
@@ -30,6 +30,7 @@ const AddSubProduct = () => {
 
 	const id = searchParams.get('id');
 	const [form] = Form.useForm();
+;
 
 
     const handleAddSubProduct = async (values: any) => {

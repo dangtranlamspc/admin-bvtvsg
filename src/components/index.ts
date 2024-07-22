@@ -10,5 +10,6 @@ export {
     HeadComponent,
     AvatarComponent,
     HeaderComponent,
-    CategoryComponent
+    CategoryComponent,
+
 }

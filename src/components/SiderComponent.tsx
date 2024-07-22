@@ -99,8 +99,8 @@ const SiderComponent = () => {
       },
     ]
   return (
-    <Sider style={{height: '100vh', width: 300}}>
-        <Menu style={{width: 250}} items={items} theme='dark' />
+    <Sider style={{height: '100vh', width: '100vh'}}>
+        <Menu items={items} theme='dark' />
     </Sider>
   )
 }
