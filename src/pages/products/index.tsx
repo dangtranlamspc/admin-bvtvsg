@@ -125,7 +125,7 @@ const Products = () => {
 						onClick={() =>
 							confirm({
 								title: 'Confirm',
-								content: 'Delete offer?',
+								content: 'Bạn muốn xóa sản phẩm?',
 								onOk: () => handleDeletOffer(item),
 							})
 						}

@@ -55,7 +55,7 @@ const TinTucSuKien = () => {
     {
       key: 'youtubeId',
       dataIndex: 'youtubeId',
-      title: 'PHÂN LOẠI',
+      title: 'Youtube ID',
     },
     {
       title: '',

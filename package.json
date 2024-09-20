@@ -20,6 +20,7 @@
     "@react-native-firebase/messaging": "^20.1.0",
     "@react-native-firebase/storage": "^20.1.0",
     "antd": "^5.18.1",
+    "ckeditor5": "^42.0.2",
     "firebase": "^10.12.2",
     "jodit": "^4.2.27",
     "jodit-react": "^4.1.2",
@@ -27,7 +28,8 @@
     "react": "^18",
     "react-dom": "^18",
     "react-icons": "^5.2.1",
-    "react-image-file-resizer": "^0.4.8"
+    "react-image-file-resizer": "^0.4.8",
+    "react-native-youtube-iframe": "^2.3.0"
   },
   "devDependencies": {
     "@types/node": "^20",

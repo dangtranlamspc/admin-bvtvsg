@@ -19,5 +19,8 @@ export const collectionNames = {
     bsct2023 : 'bsct2023',
     bsct2021 : 'bsct2021',
     tintucsukien : 'tintucsukien',
-    media: 'media'
+    media: 'media',
+    sliders : 'sliders',
+    categoriesbsct : 'categoriesbsct',
+    bsct: 'bsct'
 }

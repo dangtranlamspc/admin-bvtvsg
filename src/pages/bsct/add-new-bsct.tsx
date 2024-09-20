@@ -2,13 +2,18 @@ import { View, Text } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'antd/es/form/Form';
 import { useSearchParams } from 'next/navigation';
-import { addDoc, collection, doc, getDoc, updateDoc } from 'firebase/firestore';
+import { addDoc, collection, doc, getDoc, onSnapshot, updateDoc } from 'firebase/firestore';
 import { fs } from '@/firebase/firebaseConfig';
 import { HandleFile } from '@/utils/handleFile';
-import { Button, Card, Form, Image, Input, message } from 'antd';
+import { Button, Card, Form, Image, Input, message, Select } from 'antd';
 import { HeadComponent, ImagePicker } from '@/components';
+import dynamic from 'next/dynamic';
 
-const AddNewHuongDanKiThuat = () => {
+const CKEditorWrapper = dynamic(() => import('../../components/CKEditorWrapper'), {
+  ssr: false,
+});
+
+const AddNewBSCT: React.FC = () => {
   const [files, setFiles] = useState<any[]>([]);
 
   const [imgUrl, setImgUrl] = useState('');
@@ -19,16 +24,18 @@ const AddNewHuongDanKiThuat = () => {
 
   const searchParams = useSearchParams();
 
+  const [categoriesbsct, setCategoriesBSCT] = useState<any[]>([]);
+
   const id = searchParams.get('id');
 
   useEffect(() => {
-  id && getHuongDanKTDetail(id);
+  id && getBSCTDetail(id);
   }, [id]);
   
 
-  const getHuongDanKTDetail = async (id: string) => {
+  const getBSCTDetail = async (id: string) => {
   try {
-    const snap = await getDoc(doc(fs, `huongdankt/${id}`));
+    const snap = await getDoc(doc(fs, `bsct/${id}`));
     if (snap.exists()) {
       const data = snap.data();
 
@@ -44,7 +51,31 @@ const AddNewHuongDanKiThuat = () => {
   }
 };
 
-  const handleAddNewTinTucSPC = async (values: any) => {
+useEffect(() => {
+  getCategoriesBSCT();
+}, []);
+
+const getCategoriesBSCT = () => {
+  onSnapshot(collection(fs, 'categoriesbsct'), (snap) => {
+    if (snap.empty) {
+      console.log('Data not found!');
+      setCategoriesBSCT([]);
+    } else {
+      const items: any[] = [];
+
+      snap.forEach((item: any) => {
+        items.push({
+          value: item.id,
+          label: item.data().title,
+        });
+      });
+
+      setCategoriesBSCT(items);
+    }
+  });
+};
+
+  const handleAddNewBSCT = async (values: any) => {
   setIsLoading(true);
 
   const data: any = {};
@@ -57,8 +88,8 @@ const AddNewHuongDanKiThuat = () => {
     data.updatedAt = Date.now();
 
     const snap = id
-      ? await updateDoc(doc(fs, `huongdankt/${id}`), data)
-      : await addDoc(collection(fs, 'huongdankt'), {
+      ? await updateDoc(doc(fs, `bsct/${id}`), data)
+      : await addDoc(collection(fs, 'bsct'), {
           ...data,
           createdAt: Date.now(),
           rate: 0,
@@ -68,7 +99,7 @@ const AddNewHuongDanKiThuat = () => {
       HandleFile.HandleFiles(
         files,
         id ? id : snap ? snap.id : '',
-        'huongdankt'
+        'bsct'
       );
     }
     setIsLoading(false);
@@ -82,8 +113,8 @@ const AddNewHuongDanKiThuat = () => {
   return (
 <div>
     <HeadComponent
-      title='THÊM MỚI HƯỚNG DẪN KĨ THUẬT'
-      pageTitle='THÊM MỚI HƯỚNG DẪN KĨ THUẬT'
+      title='BÁC SĨ CÂY TRỒNG'
+      pageTitle='BÁC SĨ CÂY TRỒNG'
     />
     <div className="col-md-8 offset-md-2">
       <Card>
@@ -91,7 +122,7 @@ const AddNewHuongDanKiThuat = () => {
           size='large'
           form={form}
           layout='vertical'
-          onFinish={handleAddNewTinTucSPC}
+          onFinish={handleAddNewBSCT}
         >
           <Form.Item name={'title'} label='TIÊU ĐỀ' rules={[{
             required : true,
@@ -99,11 +130,17 @@ const AddNewHuongDanKiThuat = () => {
           }]}>
             <Input placeholder='Tiêu đề' maxLength={150} allowClear />
           </Form.Item>
+          <Form.Item name={'shortDesc'} label='Nội dung ngắn'>
+            <CKEditorWrapper />
+          </Form.Item>
           <Form.Item name={'type'} label='Kiểu'>
             <Input />
           </Form.Item>
+          <Form.Item name={'categoriesbsct'} label='Danh mục'>
+							  <Select options={categoriesbsct} />
+					</Form.Item>
           <Form.Item name={'description'} label='Nội dung'>
-            <Input.TextArea rows={10} />
+            <CKEditorWrapper />
           </Form.Item>
         </Form>
         {files.length > 0 && (
@@ -136,4 +173,4 @@ const AddNewHuongDanKiThuat = () => {
   )
 }
 
-export default AddNewHuongDanKiThuat
+export default AddNewBSCT

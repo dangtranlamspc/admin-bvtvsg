@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { AvatarComponent, HeadComponent } from '@/components'
 import { Button, Modal, Space, Tooltip } from 'antd'
 import { useRouter } from 'next/router';
-import { HuongDanKTModel } from '@/models/HuongDanKTModel';
+import { BSCTModel } from '@/models/BSCTModel';
 import { collection, deleteDoc, doc, onSnapshot } from 'firebase/firestore';
 import { fs } from '@/firebase/firebaseConfig';
 import Table, { ColumnProps } from 'antd/es/table';
@@ -13,12 +13,12 @@ import { HandleFile } from '@/utils/handleFile';
 
 
 const { confirm } = Modal;
-const HuongDanKyThuat = () => {
+const BacSiCayTrong = () => {
     const router = useRouter();
-	const [huongdankt, setHuongDanKT] = useState<HuongDanKTModel[]>([]);
+	const [bsct, setBSCT] = useState<BSCTModel[]>([]);
 
 	useEffect(() => {
-		onSnapshot(collection(fs, 'huongdankt'), (snap) => {
+		onSnapshot(collection(fs, 'bsct'), (snap) => {
 			if (snap.empty) {
 				console.log('Data not found!');
 			} else {
@@ -31,7 +31,7 @@ const HuongDanKyThuat = () => {
 					});
 				});
 
-				setHuongDanKT(items);
+				setBSCT(items);
 			}
 		});
 	}, []);
@@ -41,7 +41,7 @@ const HuongDanKyThuat = () => {
 			key: 'image',
 			title: '',
 			dataIndex: '',
-			render: (item: HuongDanKTModel) => (
+			render: (item: BSCTModel) => (
 				<AvatarComponent
 					imageUrl={item.imageUrl}
 					id={item.files && item.files.length > 0 ? item.files[0] : ''}
@@ -70,7 +70,7 @@ const HuongDanKyThuat = () => {
 							type='text'
 							icon={<FaEdit color='#676767' size={20} />}
 							onClick={() =>
-								router.push(`/huongdankt/add-new-huongdankt?id=${item.id}`)
+								router.push(`/bsct/add-new-bsct?id=${item.id}`)
 							}
 						/>
 					</Tooltip>
@@ -82,7 +82,7 @@ const HuongDanKyThuat = () => {
 			key: 'btn',
 			title: '',
 			dataIndex: '',
-			render: (item: HuongDanKTModel) => (
+			render: (item: BSCTModel) => (
 				<Space>
 					<Button
 						onClick={() =>
@@ -102,29 +102,29 @@ const HuongDanKyThuat = () => {
 		},
 	]
 
-	const handleDeleteHuongDanKT = async (item: HuongDanKTModel) => {
+	const handleDeleteHuongDanKT = async (item: BSCTModel) => {
 		if (item.files && item.files.length > 0) {
 			item.files.forEach(async (fileId) => await HandleFile.removeFile(fileId));
 		}
 
-		await deleteDoc(doc(fs, `huongdankt/${item.id}`));
+		await deleteDoc(doc(fs, `bsct/${item.id}`));
 	};
   return (
-<>
+		<>
 			<HeadComponent
-				title='HƯỚNG DẪN KỸ THUẬT'
-				pageTitle='HƯỚNG DẪN KỸ THUẬT'
+				title='BÁC SĨ CÂY TRỒNG'
+				pageTitle='BÁC SĨ CÂY TRỒNG'
 				extra={
 					<Button
 						type='primary'
-						onClick={() => router.push('/huongdankt/add-new-huongdankt')}>
+						onClick={() => router.push('/bsct/add-new-bsct')}>
 						Thêm mới
 					</Button>
 				}
 			/>
-			<Table dataSource={huongdankt} columns={columns} />
+			<Table dataSource={bsct} columns={columns} />
 		</>
   )
 }
 
-export default HuongDanKyThuat
+export default BacSiCayTrong

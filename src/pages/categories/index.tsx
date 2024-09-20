@@ -1,7 +1,7 @@
 import { View, Text } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { AvatarComponent, HeadComponent } from '@/components';
-import { Button , Modal, Space, Table } from 'antd';
+import { Button , Modal, Space, Table, Tooltip } from 'antd';
 import { AddNewCategory } from '@/modals';
 import { collection, deleteDoc, doc, getDoc, onSnapshot, updateDoc } from 'firebase/firestore';
 import { fs } from '@/firebase/firebaseConfig';
@@ -9,6 +9,9 @@ import { CategoryModel } from '@/models/CategoryModel';
 import { ColumnProps } from 'antd/es/table';
 import { BiTrash } from 'react-icons/bi';
 import { HandleFile } from '@/utils/handleFile';
+import { FaEdit } from 'react-icons/fa';
+import { useRouter } from 'next/router';
+import { FcAddImage } from 'react-icons/fc';
 
 const { confirm } = Modal;
 
@@ -16,6 +19,8 @@ const Categories = () => {
   const [isVisibleModalAddCategory, setIsVisibleModalAddCategory] = useState(false);
 
   const [categories, setCategories] = useState<CategoryModel[]> ([]);
+
+  const router = useRouter();
 
   useEffect (() => {
     onSnapshot(collection(fs, 'categories'), (snap) => {
@@ -69,6 +74,24 @@ const Categories = () => {
 		{
 			key: 'title',
 			dataIndex: 'title',
+		},
+		{
+			title: '',
+			align: 'right',
+			dataIndex: '',
+			render: (item : CategoryModel) => (
+				<Space>
+					<Tooltip title='Chỉnh sửa'>
+						<Button
+							type='text'
+							icon={<FaEdit color='#676767' size={20} />}
+							onClick={() =>
+								router.push(`/categories/add-new-categories?id=${item.id}`)
+							}
+						/>
+					</Tooltip>
+				</Space>
+			),
 		},
     	{
 			key: 'btn',

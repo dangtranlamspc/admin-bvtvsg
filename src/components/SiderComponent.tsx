@@ -38,6 +38,11 @@ const SiderComponent = () => {
         icon : <AiFillProduct />
       },
       {
+        key : 'danhmucbsct',
+        label : <Link href={'/danhmucbsct'}>DANH MỤC BSCT</Link>,
+        icon : <IoMdPricetag />
+      },
+      {
         key: 'sub4',
         label: 'NÔNG NGHIỆP ĐÔ THỊ',
         icon: <AiFillProduct />,
@@ -75,15 +80,18 @@ const SiderComponent = () => {
           { key: 'chinhsachphapluat', label: <Link href={'/chinhsachphapluat'}>CHÍNH SÁCH PHÁP LUẬT</Link> },
         ],
       },
+      // {
+      //   key: 'sub8',
+      //   label: 'BÁC SĨ CÂY TRỒNG',
+      //   icon: <AiFillProduct />,
+      //   children: [     
+      //     { key: 'huongdankt', label: <Link href={'/huongdankt'}>HƯỚNG DẪN KỸ THUẬT</Link> },
+      //   ],
+      // },
       {
-        key: 'sub8',
-        label: 'BÁC SĨ CÂY TRỒNG',
-        icon: <AiFillProduct />,
-        children: [
-          { key: 'hoatdongbsct', label: <Link href={'/hoatdongbsct'}>HOẠT ĐỘNG BÁC SĨ CÂY TRỒNG</Link> },
-          { key: 'huongdankt', label: <Link href={'/huongdankt'}>HƯỚNG DẪN KỸ THUẬT</Link> },
-          { key: 'nongdanspc', label: <Link href={'/nongdanspc'}>NÔNG DÂN SPC</Link> },
-        ],
+        key : 'bsct',
+        label : <Link href={'/bsct'}>BÁC SĨ CÂY TRỒNG</Link>,
+        icon : <IoMdPricetag />
       },
       {
         key: 'sub9',
@@ -96,6 +104,11 @@ const SiderComponent = () => {
           { key: 'tintucsukien', label: <Link href={'/tintucsukien'}>TIN TỨC - SỰ KIỆN</Link> },
           { key: '', label: <Link href={'/'}>MEDIA</Link> },
         ],
+      },
+      {
+        key : 'sliders',
+        label : <Link href={'/sliders'}>SLIDERS TRANG CHỦ</Link>,
+        icon : <AiFillProduct />
       },
     ]
   return (

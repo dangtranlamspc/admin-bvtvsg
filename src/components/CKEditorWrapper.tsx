@@ -4,6 +4,8 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { storage } from '@/firebase/firebaseConfig';
 import DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
+// import DecoupledEditor from '@ckeditor/ckeditor5-editor-decoupled/src/decouplededitor';
+// import {DecoupledEditor} from 'ckeditor5'
 
 
 interface CKEditorWrapperProps {
