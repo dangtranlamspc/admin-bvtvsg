@@ -1,17 +1,17 @@
 
 import React, { useState } from 'react'
-import { Form, Input, message, Modal } from 'antd'
-import { ImagePicker } from '@/components'
-import { addDoc, collection } from 'firebase/firestore'
+import { Input, message, Modal } from 'antd'
 import { fs } from '@/firebase/firebaseConfig'
 import { HandleFile } from '@/utils/handleFile'
+import { addDoc, collection } from 'firebase/firestore'
+import { ImagePicker } from '@/components'
 
 type Props = {
     visible : boolean,
     onClose : () => void
 }
 
-const AddNewCategory = (props : Props) => {
+const AddNewCategoryCTGD = (props : Props) => {
     const {visible, onClose} = props
 
     const [isLoading, setIsLoading] = useState(false);
@@ -26,7 +26,7 @@ const AddNewCategory = (props : Props) => {
         onClose();
     };
 
-    const handleAddNewCatrgory = async (values: any) => {
+    const handleAddNewCategoryCTGD = async (values: any) => {
         if (!title) {
             message.error('Không tìm thấy danh mục')
         }else if (files.length === 0){
@@ -35,13 +35,13 @@ const AddNewCategory = (props : Props) => {
             setIsLoading(true)
 
             try{
-                const snap = await addDoc(collection(fs, 'categories'), {
+                const snap = await addDoc(collection(fs, 'categoriesctgd'), {
                     title,
                     createdAt: Date.now(),
 					updatedAt: Date.now(),
                 })
                 if(files && files.length > 0) {
-                    await HandleFile.HandleFiles(files, snap.id, 'categories')
+                    await HandleFile.HandleFiles(files, snap.id, 'categoriesctgd')
                 }
                 handleClose()
                 setIsLoading(false)
@@ -51,16 +51,15 @@ const AddNewCategory = (props : Props) => {
             }
         }
     }
-
   return (
-    <Modal 
+    <Modal
         open={visible}
-        onOk={handleAddNewCatrgory}
+        onOk={handleAddNewCategoryCTGD}
         loading={isLoading}
         onCancel={handleClose}
         title='Tạo mới danh mục sản phẩm' >
             <div className="mb-3 mt-3">
-                <Input 
+                <Input
                     size='large'
                     placeholder='title'
                     maxLength={150}
@@ -88,4 +87,4 @@ const AddNewCategory = (props : Props) => {
   )
 }
 
-export default AddNewCategory
+export default AddNewCategoryCTGD

@@ -1,36 +1,49 @@
-import { View, Text } from 'react-native'
+
+import dynamic from 'next/dynamic';
 import React, { useEffect, useState } from 'react'
-import { HeadComponent, ImagePicker } from '@/components'
+import { Button, Card, Form, Image, Input, message, Select } from 'antd'
 import { useForm } from 'antd/es/form/Form';
 import { useSearchParams } from 'next/navigation';
-import { addDoc, collection, doc, getDoc, updateDoc } from 'firebase/firestore';
+import { addDoc, collection, doc, getDoc, onSnapshot, updateDoc } from 'firebase/firestore';
 import { fs } from '@/firebase/firebaseConfig';
 import { HandleFile } from '@/utils/handleFile';
-import { Button, Card, Form, Image, Input, message } from 'antd';
+import { HeadComponent, ImagePicker } from '@/components';
 import { BiAddToQueue } from 'react-icons/bi';
+import { AddNewCategory } from '@/modals';
 
-const AddNewRauCuQua = () => {
+const CKEditorWrapper = dynamic(() => import('../../components/CKEditorWrapper'), {
+    ssr: false,
+  });
+
+const AddNewNNDT: React.FC = () => {
     const [files, setFiles] = useState<any[]>([]);
 
-    const [imgUrl, setImgUrl] = useState('');
-  
-    const [isLoading, setIsLoading] = useState(false)
+  const [imgUrl, setImgUrl] = useState('');
 
-    const [form] = useForm()
+  const [isLoading, setIsLoading] = useState(false)
 
-    const searchParams = useSearchParams();
+  const [categoriesnndt, setCategoriesNNDT] = useState<any[]>([]);
 
-    const id = searchParams.get('id');
+  const [isVisibleModalAddCategoryNNDT, setIsVisibleModalAddCategoryNNDT] = useState(false);
+
+  const [form] = useForm()
+
+  const searchParams = useSearchParams();
+
+  const id = searchParams.get('id');
 
 
-    useEffect(() => {
-		id && getRauCuQuaDetail(id);
-	  }, [id]);
-    
+  useEffect(() => {
+		id && getProductNNDTDetail(id);
+	}, [id]);
 
-    const getRauCuQuaDetail = async (id: string) => {
+  useEffect(() => {
+		getCategoriesNNDT();
+	}, []);
+
+  const getProductNNDTDetail = async (id: string) => {
 		try {
-			const snap = await getDoc(doc(fs, `raucuqua/${id}`));
+			const snap = await getDoc(doc(fs, `nndt/${id}`));
 			if (snap.exists()) {
 				const data = snap.data();
 
@@ -46,7 +59,7 @@ const AddNewRauCuQua = () => {
 		}
 	};
 
-    const handleAddNewauCuQua = async (values: any) => {
+  const handleAddNewProduct = async (values: any) => {
 		setIsLoading(true);
 
 		const data: any = {};
@@ -59,8 +72,8 @@ const AddNewRauCuQua = () => {
 			data.updatedAt = Date.now();
 
 			const snap = id
-				? await updateDoc(doc(fs, `raucuqua/${id}`), data)
-				: await addDoc(collection(fs, 'raucuqua'), {
+				? await updateDoc(doc(fs, `nndt/${id}`), data)
+				: await addDoc(collection(fs, 'nndt'), {
 						...data,
 						createdAt: Date.now(),
 						rate: 0,
@@ -70,7 +83,7 @@ const AddNewRauCuQua = () => {
 				HandleFile.HandleFiles(
 					files,
 					id ? id : snap ? snap.id : '',
-					'raucuqua'
+					'nndt'
 				);
 			}
 			setIsLoading(false);
@@ -81,11 +94,40 @@ const AddNewRauCuQua = () => {
 			setIsLoading(false);
 		}
 	};
+
+
+  const getCategoriesNNDT = () => {
+		onSnapshot(collection(fs, 'categoriesnndt'), (snap) => {
+			if (snap.empty) {
+				console.log('Data not found!');
+				setCategoriesNNDT([]);
+			} else {
+				const items: any[] = [];
+
+				snap.forEach((item: any) => {
+					items.push({
+						value: item.id,
+						label: item.data().title,
+					});
+				});
+
+				setCategoriesNNDT(items);
+			}
+		});
+	};
   return (
     <div>
         <HeadComponent
           title='THÊM MỚI SẢN PHẨM'
           pageTitle='THÊM MỚI SẢN PHẨM'
+          extra={
+            <Button
+              type='primary'
+              onClick={() => setIsVisibleModalAddCategoryNNDT(true)}
+              icon={<BiAddToQueue size={22} />}>
+              Thêm mới danh mục sản phẩm
+            </Button>
+          }
 			  />
         <div className="col-md-8 offset-md-2">
           <Card title='THÊM MỚI'>
@@ -93,7 +135,7 @@ const AddNewRauCuQua = () => {
               size='large'
               form={form}
               layout='vertical'
-              onFinish={handleAddNewauCuQua}
+              onFinish={handleAddNewProduct}
             >
               <Form.Item name={'title'} label='TÊN SẢN PHẨM' rules={[{
                 required : true,
@@ -104,8 +146,12 @@ const AddNewRauCuQua = () => {
               <Form.Item name={'type'} label='Type'>
                 <Input />
               </Form.Item>
+              <Form.Item name={'categoriesnndt'} label='Categories'>
+							  <Select options={categoriesnndt} />
+						  </Form.Item>
               <Form.Item name={'description'} label='Nội dung'>
-                <Input.TextArea rows={10} />
+
+                  <CKEditorWrapper />
               </Form.Item>
               <Form.Item name={'price'} label='Giá'>
                 <Input type='number'/>
@@ -137,8 +183,12 @@ const AddNewRauCuQua = () => {
             </div>
           </Card>
         </div>
+        <AddNewCategory
+          visible={isVisibleModalAddCategoryNNDT}
+          onClose={() => setIsVisibleModalAddCategoryNNDT(false)}
+        />
     </div>
   )
 }
 
-export default AddNewRauCuQua
+export default AddNewNNDT

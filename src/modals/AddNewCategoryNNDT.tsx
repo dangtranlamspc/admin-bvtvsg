@@ -11,7 +11,7 @@ type Props = {
     onClose : () => void
 }
 
-const AddNewCategory = (props : Props) => {
+const AddNewCategoryNNDT = (props : Props) => {
     const {visible, onClose} = props
 
     const [isLoading, setIsLoading] = useState(false);
@@ -35,13 +35,13 @@ const AddNewCategory = (props : Props) => {
             setIsLoading(true)
 
             try{
-                const snap = await addDoc(collection(fs, 'categories'), {
+                const snap = await addDoc(collection(fs, 'categoriesnndt'), {
                     title,
                     createdAt: Date.now(),
 					updatedAt: Date.now(),
                 })
                 if(files && files.length > 0) {
-                    await HandleFile.HandleFiles(files, snap.id, 'categories')
+                    await HandleFile.HandleFiles(files, snap.id, 'categoriesnndt')
                 }
                 handleClose()
                 setIsLoading(false)
@@ -88,4 +88,4 @@ const AddNewCategory = (props : Props) => {
   )
 }
 
-export default AddNewCategory
+export default AddNewCategoryNNDT

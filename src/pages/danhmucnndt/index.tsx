@@ -1,31 +1,29 @@
-
-import React, { useEffect, useState } from 'react'
-import { Button, Modal, Space, Table } from 'antd';
-import { CategoryBSCTModel } from '@/models/CategoryBSCTModel';
-import { collection, deleteDoc, doc, onSnapshot, orderBy } from 'firebase/firestore';
-import { fs } from '@/firebase/firebaseConfig';
-import { ColumnProps } from 'antd/es/table';
-import { AvatarComponent, HeadComponent } from '@/components';
-import { BiTrash } from 'react-icons/bi';
-import { HandleFile } from '@/utils/handleFile';
-import { AddNewCategoryBSCT } from '@/modals';
+import { AvatarComponent, HeadComponent } from "@/components";
+import { fs } from "@/firebase/firebaseConfig";
+import { CategoryNNDTModel } from "@/models/CategoryNNDTModel";
+import { Button, Modal, Space } from "antd";
+import { collection, deleteDoc, doc, onSnapshot } from "firebase/firestore";
+import { useEffect, useState } from "react";
+import { BiTrash } from "react-icons/bi";
+import Table, { ColumnProps } from 'antd/es/table';
+import { HandleFile } from "@/utils/handleFile";
+import AddNewCategoryNNDT from "@/modals/AddNewCategoryNNDT";
 
 const { confirm } = Modal;
 
-const CategoriesBSCT = () => {
-
+const CategoriesNNTD = () => {
     const [isVisibleModalAddCategory, setIsVisibleModalAddCategory] = useState(false);
 
-    const [categoriesbsct, setCategoriesBSCT] = useState<CategoryBSCTModel[]> ([]);
+    const [categoriesbsct, setCategoriesBSCT] = useState<CategoryNNDTModel[]> ([]);
 
 
     useEffect (() => {
-        onSnapshot(collection(fs, 'categoriesbsct'), (snap) => {
+        onSnapshot(collection(fs, 'categoriesnndt'), (snap) => {
           if(snap.empty) {
             console.log('Không tìm thấy dữ liệu')
             setCategoriesBSCT([])
           }else{
-            const items : CategoryBSCTModel[] = [];
+            const items : CategoryNNDTModel[] = [];
             snap.forEach((item: any) => {
               items.push({
                 id: item.id,
@@ -41,7 +39,7 @@ const CategoriesBSCT = () => {
 		{
 			key: 'img',
 			dataIndex: '',
-			render: (item: CategoryBSCTModel) => (
+			render: (item: CategoryNNDTModel) => (
 				<AvatarComponent
 					imageUrl={item.imageUrl}
 					id={item.files && item.files.length > 0 ? item.files[0] : undefined}
@@ -57,14 +55,14 @@ const CategoriesBSCT = () => {
 			key: 'btn',
 			title: '',
 			dataIndex: '',
-			render: (item: CategoryBSCTModel) => (
+			render: (item: CategoryNNDTModel) => (
 				<Space>
 					<Button
 						onClick={() =>
 							confirm({
 								title: 'Confirm',
 								content: 'Delete offer?',
-								onOk: () => handleDeletOffer(item),
+								onOk: () => handleDeleteCategoryNNDT(item),
 							})
 						}
 						icon={<BiTrash size={20} />}
@@ -77,18 +75,18 @@ const CategoriesBSCT = () => {
 		},
   	];
 
-  const handleDeletOffer = async (item: CategoryBSCTModel) => {
+  const handleDeleteCategoryNNDT = async (item: CategoryNNDTModel) => {
 		if (item.files && item.files.length > 0) {
 			item.files.forEach(async (fileId) => await HandleFile.removeFile(fileId));
 		}
 
-		await deleteDoc(doc(fs, `categoriesbsct/${item.id}`));
+		await deleteDoc(doc(fs, `categoriesnndt/${item.id}`));
 	};
-  return (
-    <div>
+    return (
+        <div>
 			<HeadComponent
-				title='DANH MỤC BÁC SĨ CÂY TRỒNG'
-				pageTitle='DANH MỤC BÁC SĨ CÂY TRỒNG'
+				title='DANH MỤC NÔNG NGHIỆP ĐÔ THỊ'
+				pageTitle='DANH MỤC NÔNG NGHIỆP ĐÔ THỊ'
 				extra={
 					<Button
 						type='primary'
@@ -100,12 +98,11 @@ const CategoriesBSCT = () => {
       {/* <Button onClick={handleUpdate}>Cập nhật</Button> */}
 
 			<Table dataSource={categoriesbsct} columns={columns} />
-			<AddNewCategoryBSCT
+			<AddNewCategoryNNDT
 				visible={isVisibleModalAddCategory}
 				onClose={() => setIsVisibleModalAddCategory(false)}
 			/>
 		</div>
-  )
+    )
 }
-
-export default CategoriesBSCT
+export default CategoriesNNTD

@@ -28,27 +28,30 @@ const SiderComponent = () => {
         icon : <FaPercentage/>
       },
       {
-        key : 'categories',
-        label : <Link href={'/categories'}>DANH MỤC</Link>,
-        icon : <IoMdPricetag />
-      },
-      {
-        key : 'products',
-        label : <Link href={'/products'}>SẢN PHẨM</Link>,
-        icon : <AiFillProduct />
-      },
-      {
-        key : 'danhmucbsct',
-        label : <Link href={'/danhmucbsct'}>DANH MỤC BSCT</Link>,
-        icon : <IoMdPricetag />
+        key: 'sub3',
+        label: 'SẢN PHẨM',
+        icon: <AiFillProduct />,
+        children: [
+          { key: 'categories', label: <Link href={'/categories'}>DANH MỤC SẢN PHẨM</Link> },
+          { key: 'hoichosukien', label: <Link href={'/products'}>DANH SÁCH SẢN PHẨM</Link> },
+        ],
       },
       {
         key: 'sub4',
+        label: 'BÁC SĨ CÂY TRỒNG',
+        icon: <AiFillProduct />,
+        children: [
+          { key: 'danhmucbsct', label: <Link href={'/danhmucbsct'}>DANH MỤC BSCT</Link> },
+          { key: 'bsct', label: <Link href={'/bsct'}>DANH SÁCH BSCT</Link> },
+        ],
+      },
+      {
+        key: 'sub8',
         label: 'NÔNG NGHIỆP ĐÔ THỊ',
         icon: <AiFillProduct />,
         children: [
-          { key: 'hoacaykieng', label: <Link href={'/hoacaykieng'}>HOA - CÂY KIỂNG</Link> },
-          { key: 'raucuqua', label: <Link href={'/raucuqua'}>RAU - CỦ -QUẢ</Link> },
+          { key: 'danhmucnndt', label: <Link href={'/danhmucnndt'}>DANH MỤC</Link> },
+          { key: 'nndt', label: <Link href={'/nndt'}>DANH SÁCH</Link> },
         ],
       },
       {
@@ -56,8 +59,8 @@ const SiderComponent = () => {
         label: 'CÔN TRÙNG GIA DỤNG',
         icon: <AiFillProduct />,
         children: [
-          { key: 'nhavuons', label: <Link href={'/nhavuons'}>CÔN TRÙNG TRONG NHÀ - VƯỜN</Link> },
-          { key: 'rongrieu', label: <Link href={'/rongrieu'}>RONG RÊU - SINH VẬY THỦY CẢNH</Link> },
+          { key: 'danhmucctgd', label: <Link href={'/danhmucctgd'}>DANH MỤC</Link> },
+          { key: 'ctgd', label: <Link href={'/ctgd'}>DANH SÁCH SẢN PHẨM</Link> },
         ],
       },
       {
@@ -80,19 +83,6 @@ const SiderComponent = () => {
           { key: 'chinhsachphapluat', label: <Link href={'/chinhsachphapluat'}>CHÍNH SÁCH PHÁP LUẬT</Link> },
         ],
       },
-      // {
-      //   key: 'sub8',
-      //   label: 'BÁC SĨ CÂY TRỒNG',
-      //   icon: <AiFillProduct />,
-      //   children: [     
-      //     { key: 'huongdankt', label: <Link href={'/huongdankt'}>HƯỚNG DẪN KỸ THUẬT</Link> },
-      //   ],
-      // },
-      {
-        key : 'bsct',
-        label : <Link href={'/bsct'}>BÁC SĨ CÂY TRỒNG</Link>,
-        icon : <IoMdPricetag />
-      },
       {
         key: 'sub9',
         label: 'THƯ VIỆN',
@@ -112,7 +102,7 @@ const SiderComponent = () => {
       },
     ]
   return (
-    <Sider style={{height: '100vh', width: '100vh'}}>
+    <Sider style={{height: '100vh'}} width={250}>
         <Menu items={items} theme='dark' />
     </Sider>
   )

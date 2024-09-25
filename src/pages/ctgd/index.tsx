@@ -1,23 +1,26 @@
-import { View, Text } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import { useRouter } from 'next/router';
+
 import { AvatarComponent, HeadComponent } from '@/components';
-import { Button, Modal, Space, Tooltip } from 'antd';
-import { RongReuModel } from '@/models/RongReuModel';
-import { collection, deleteDoc, doc, onSnapshot } from 'firebase/firestore';
+import CategoryCTGDComponent from '@/components/CategoryCTGDComponent';
 import { fs } from '@/firebase/firebaseConfig';
-import Table, { ColumnProps } from 'antd/es/table';
-import { FaEdit } from 'react-icons/fa';
-import { BiTrash } from 'react-icons/bi';
+import { CTGDModel } from '@/models/CTGDModel';
 import { HandleFile } from '@/utils/handleFile';
+import { Button, Modal, Space, Tag, Tooltip } from 'antd';
+import Table, { ColumnProps } from 'antd/es/table';
+import { collection, deleteDoc, doc, onSnapshot } from 'firebase/firestore';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react'
+import { BiTrash } from 'react-icons/bi';
+import { FaEdit } from 'react-icons/fa';
 
 const { confirm } = Modal;
-const RongReu = () => {
+
+const ProductsCTGD = () => {
+    const [productsctgd, setProductsCTGD] = useState<CTGDModel[]>([]);
+
     const router = useRouter();
-	const [rongrieu, setRongRieu] = useState<RongReuModel[]>([]);
 
 	useEffect(() => {
-		onSnapshot(collection(fs, 'rongrieu'), (snap) => {
+		onSnapshot(collection(fs, 'ctgd'), (snap) => {
 			if (snap.empty) {
 				console.log('Data not found!');
 			} else {
@@ -30,17 +33,19 @@ const RongReu = () => {
 					});
 				});
 
-				setRongRieu(items);
+				setProductsCTGD(items);
 			}
 		});
 	}, []);
+
+
 
 	const columns : ColumnProps<any>[] = [
 		{
 			key: 'image',
 			title: '',
 			dataIndex: '',
-			render: (item: RongReuModel) => (
+			render: (item: CTGDModel) => (
 				<AvatarComponent
 					imageUrl={item.imageUrl}
 					id={item.files && item.files.length > 0 ? item.files[0] : ''}
@@ -51,17 +56,29 @@ const RongReu = () => {
 		{
 			key: 'title',
 			dataIndex: 'title',
-			title: 'TIÊU ĐỀ',
+			title: 'TÊN SẢN PHẨM',
 		},
 		{
 			key: 'type',
 			dataIndex: 'type',
-			title: 'PHÂN LOẠI',
+			title: 'TIÊU ĐỀ',
 		},
 		{
-			key: 'Price',
-			title: 'GIÁ (VNĐ)',
-			dataIndex: 'price',
+			key: 'catnndt',
+			title: 'Categories',
+			dataIndex: 'categoriesctgd',
+			render: (ids: string) =>
+				ids &&
+				ids.length > 0 && (
+					<Space>
+						{/* {ids.map((id) => ( */}
+							<Tag>
+								<CategoryCTGDComponent id={ids} key={ids} />
+							</Tag>
+						{/* ))} */}
+					</Space>
+			),
+
 		},
 		{
 			title: '',
@@ -74,7 +91,7 @@ const RongReu = () => {
 							type='text'
 							icon={<FaEdit color='#676767' size={20} />}
 							onClick={() =>
-								router.push(`/nhavuons/add-new-nhavuon?id=${item.id}`)
+								router.push(`/ctgd/add-new-ctgd?id=${item.id}`)
 							}
 						/>
 					</Tooltip>
@@ -86,14 +103,14 @@ const RongReu = () => {
 			key: 'btn',
 			title: '',
 			dataIndex: '',
-			render: (item: RongReuModel) => (
+			render: (item: CTGDModel) => (
 				<Space>
 					<Button
 						onClick={() =>
 							confirm({
 								title: 'Confirm',
-								content: 'Delete ?',
-								onOk: () => handleDeleteNhaVuon(item),
+								content: 'Bạn muốn xóa sản phẩm?',
+								onOk: () => handleDeletOffer(item),
 							})
 						}
 						icon={<BiTrash size={20} />}
@@ -106,29 +123,29 @@ const RongReu = () => {
 		},
 	]
 
-	const handleDeleteNhaVuon = async (item: RongReuModel) => {
+	const handleDeletOffer = async (item: CTGDModel) => {
 		if (item.files && item.files.length > 0) {
 			item.files.forEach(async (fileId) => await HandleFile.removeFile(fileId));
 		}
 
-		await deleteDoc(doc(fs, `rongrieu/${item.id}`));
+		await deleteDoc(doc(fs, `ctgd/${item.id}`));
 	};
   return (
-        <>
-			<HeadComponent
-				title='RONG RÊU - SINH VẬT THỦY CẢNH'
-				pageTitle='RONG RÊU - SINH VẬT THỦY CẢNH'
-				extra={
-					<Button
+    <div>
+        <HeadComponent
+			title='SẢN PHẨM'
+			pageTitle='SẢN PHẨM'
+			extra={
+				<Button
 						type='primary'
-						onClick={() => router.push('/rongrieu/add-new-ctgd-rongrieu')}>
-						Thêm mới
-					</Button>
-				}
-			/>
-			<Table dataSource={rongrieu} columns={columns} />
-		</>
+						onClick={() => router.push('/ctgd/add-new-ctgd')}>
+						THÊM MỚI
+				</Button>
+			}
+		/>
+		<Table dataSource={productsctgd} columns={columns} />
+    </div>
   )
 }
 
-export default RongReu
+export default ProductsCTGD
