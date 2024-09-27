@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native'
+
 import React, { useEffect, useState } from 'react'
 import { Button, Card, DatePicker, Form, Image, Input, message, Select } from 'antd';
 import { generatorRandomText } from '@/utils/generatorRandomText';

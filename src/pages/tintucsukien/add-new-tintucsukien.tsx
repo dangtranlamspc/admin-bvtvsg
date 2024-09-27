@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native'
+
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'antd/es/form/Form'
 import { useSearchParams } from 'next/navigation'

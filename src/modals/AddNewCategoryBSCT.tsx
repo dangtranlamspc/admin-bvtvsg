@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native'
+
 import React, { useState } from 'react'
 import { Input, message, Modal } from 'antd'
 import { addDoc, collection } from 'firebase/firestore'

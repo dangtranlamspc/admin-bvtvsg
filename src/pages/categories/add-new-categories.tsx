@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native'
+
 import React, { useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation';
 import { addDoc, collection, doc, getDoc, updateDoc } from 'firebase/firestore';

@@ -2285,11 +2285,6 @@ ast-types-flow@^0.0.8:
   resolved "https://registry.yarnpkg.com/ast-types-flow/-/ast-types-flow-0.0.8.tgz#0a85e1c92695769ac13a428bb653e7538bea27d6"
   integrity sha512-OH/2E5Fg20h2aPrbe+QL8JZQFko0YZaF+j4mnQ7BGhfavO7OpSLa8a0y9sBwomHdSbkhTS8TQNayBfnW5DwbvQ==
 
-autobind-decorator@^2.4.0:
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/autobind-decorator/-/autobind-decorator-2.4.0.tgz#ea9e1c98708cf3b5b356f7cf9f10f265ff18239c"
-  integrity sha512-OGYhWUO72V6DafbF8PM8rm3EPbfuyMZcJhtm5/n26IDwO18pohE4eNazLoCGhPiXOCD0gEGmrbU3849QvM8bbw==
-
 available-typed-arrays@^1.0.7:
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/available-typed-arrays/-/available-typed-arrays-1.0.7.tgz#a5cc375d6a03c2efc87a553f3e0b1522def14846"
@@ -3640,20 +3635,6 @@ jackspeak@^2.3.5:
     "@isaacs/cliui" "^8.0.2"
   optionalDependencies:
     "@pkgjs/parseargs" "^0.11.0"
-
-jodit-react@^4.1.2:
-  version "4.1.2"
-  resolved "https://registry.yarnpkg.com/jodit-react/-/jodit-react-4.1.2.tgz#61ef1d6fa1f37cde7b71f666da8be9f6fb70f913"
-  integrity sha512-Hs1evpM1IK5zvy/5m5Gk819L8aC+9EmEdQvCoLHVUr/R3vtH4nYFD6wsMRj3ur3J4ZHhaSBjt0N3R7ggwP405Q==
-  dependencies:
-    jodit "^4.2.10"
-
-jodit@^4.2.10, jodit@^4.2.27:
-  version "4.2.27"
-  resolved "https://registry.yarnpkg.com/jodit/-/jodit-4.2.27.tgz#fd6b39a968bd474210e8ab78fc463cdb206d3a6d"
-  integrity sha512-cqqeunB3HMElnocVhs5Qq2bhgpMIT2vKQPBpKcOTWKvX6GJ0GYAIneMEf43lphJuo+119CvBE8YgljD5iTfsAQ==
-  dependencies:
-    autobind-decorator "^2.4.0"
 
 "js-tokens@^3.0.0 || ^4.0.0":
   version "4.0.0"
