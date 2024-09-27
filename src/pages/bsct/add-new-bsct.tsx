@@ -1,5 +1,5 @@
-import { View, Text } from 'react-native'
-import React, { useEffect, useState } from 'react'
+
+import React, { useEffect, useRef, useState } from 'react'
 import { useForm } from 'antd/es/form/Form';
 import { useSearchParams } from 'next/navigation';
 import { addDoc, collection, doc, getDoc, onSnapshot, updateDoc } from 'firebase/firestore';
@@ -8,12 +8,17 @@ import { HandleFile } from '@/utils/handleFile';
 import { Button, Card, Form, Image, Input, message, Select } from 'antd';
 import { HeadComponent, ImagePicker } from '@/components';
 import dynamic from 'next/dynamic';
+import { Editor } from '@tinymce/tinymce-react';
+import { Editor as TinyMCEEditors } from 'tinymce';
 
 const CKEditorWrapper = dynamic(() => import('../../components/CKEditorWrapper'), {
   ssr: false,
 });
 
+const TinyMCEEditor = dynamic(() => import('../../components/TinyMCEEditor'), { ssr: false });
+
 const AddNewBSCT: React.FC = () => {
+
   const [files, setFiles] = useState<any[]>([]);
 
   const [imgUrl, setImgUrl] = useState('');
@@ -110,66 +115,73 @@ const getCategoriesBSCT = () => {
     setIsLoading(false);
   }
 };
+
+const handleEditorChange = (content: string, editor: TinyMCEEditors) => {
+  console.log('Content was updated:', content);
+};
   return (
-<div>
-    <HeadComponent
-      title='BÁC SĨ CÂY TRỒNG'
-      pageTitle='BÁC SĨ CÂY TRỒNG'
-    />
-    <div className="col-md-8 offset-md-2">
-      <Card>
-        <Form disabled={isLoading} 
-          size='large'
-          form={form}
-          layout='vertical'
-          onFinish={handleAddNewBSCT}
-        >
-          <Form.Item name={'title'} label='TIÊU ĐỀ' rules={[{
-            required : true,
-            message : 'Điền tiêu đề'
-          }]}>
-            <Input placeholder='Tiêu đề' maxLength={150} allowClear />
-          </Form.Item>
-          <Form.Item name={'shortDesc'} label='Nội dung ngắn'>
-            <CKEditorWrapper />
-          </Form.Item>
-          <Form.Item name={'type'} label='Kiểu'>
-            <Input />
-          </Form.Item>
-          <Form.Item name={'categoriesbsct'} label='Danh mục'>
-							  <Select options={categoriesbsct} />
-					</Form.Item>
-          <Form.Item name={'description'} label='Nội dung'>
-            <CKEditorWrapper />
-          </Form.Item>
-        </Form>
-        {files.length > 0 && (
-          <div>
-            <img
-              src={URL.createObjectURL(files[0])}
-              style={{
-                width: 200,
-                height: 'auto',
-              }}
-              alt=''
-            />
-          </div>
-        )}
-        {files.length === 0 && imgUrl ? (
-        <Image src={imgUrl} style={{ width: 200 }} />
-        ) : (
-          <></>
+  <div>
+      <HeadComponent
+        title='BÁC SĨ CÂY TRỒNG'
+        pageTitle='BÁC SĨ CÂY TRỒNG'
+      />
+      <div className="col-md-8 offset-md-2">
+        <Card>
+          <Form disabled={isLoading} 
+            size='large'
+            form={form}
+            layout='vertical'
+            onFinish={handleAddNewBSCT}
+          >
+            <Form.Item name={'title'} label='TIÊU ĐỀ' rules={[{
+              required : true,
+              message : 'Điền tiêu đề'
+            }]}>
+              <Input placeholder='Tiêu đề' maxLength={150} allowClear />
+            </Form.Item>
+            <Form.Item name={'shortDesc'} label='Nội dung ngắn'>
+                <CKEditorWrapper />
+            </Form.Item>
+            <Form.Item name={'type'} label='Kiểu'>
+              <Input />
+            </Form.Item>
+            <Form.Item name={'categoriesbsct'} label='Danh mục'>
+                  <Select options={categoriesbsct} />
+            </Form.Item>
+            <Form.Item name={'description'} label='Nội dung'>
+              {/* <CKEditorWrapper /> */}
+              <TinyMCEEditor 
+                initialValue={''} 
+                onChange={handleEditorChange}/>
+            </Form.Item>
+          </Form>
+          {files.length > 0 && (
+            <div>
+              <img
+                src={URL.createObjectURL(files[0])}
+                style={{
+                  width: 200,
+                  height: 'auto',
+                }}
+                alt=''
+              />
+            </div>
           )}
-        <ImagePicker
-          loading={isLoading}
-          onSelected={(vals) => setFiles(vals)}
-        />
-        <div className="mt-3 text-right">
-          <Button loading={isLoading} type='primary' onClick={() => form.submit()} >Thêm</Button>
-        </div>
-      </Card>
-    </div>
-</div>
+          {files.length === 0 && imgUrl ? (
+          <Image src={imgUrl} style={{ width: 200 }} />
+          ) : (
+            <></>
+            )}
+          <ImagePicker
+            loading={isLoading}
+            onSelected={(vals) => setFiles(vals)}
+          />
+          <div className="mt-3 text-right">
+            <Button loading={isLoading} type='primary' onClick={() => form.submit()} >Thêm</Button>
+          </div>
+        </Card>
+      </div>
+  </div>
   )
 }
 
